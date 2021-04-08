@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .wrapper {
+      margin-top: 20px;
+      padding: 20px;
+      border: 2px solid orange;
+      width: max-content;
+    }
+  </style>
+</head>
+<body>
+  <textarea></textarea>
+
+  <div class="wrapper"></div>
+</body>
+<script>
+const wrapper = document.querySelector('.wrapper')
+const config = {
+  attributes: true,
+  childList: true,
+  subtree: true
+}
+
+const callback = (mutationList, observer) => {
+  mutationList.forEach(item => {
+    wrapper.innerHTML = JSON.stringify({
+      height: item.target.style.height,
+      width: item.target.style.width
+    })
+  })
+}
+
+const listener = () => {
+  const textarea = document.querySelector('textarea')
+  const observer = new MutationObserver(callback)
+  observer.observe(textarea, config)
+}
+
+document.addEventListener('DOMContentLoaded', listener)
+</script>
+</html>
